@@ -1,0 +1,89 @@
+archpm query builder
+
+not: aggregate functions might be used with extension methods such as p.Id.Count(), p.Price.Sum()
+to be able to ignore ambiguity use special names QCount instead of Count
+****shortly, use Q prefix with aggreagate functions****
+
+
+for select
+
+select all fields implicitly
+select all fields explicitly
+select one field
+select multiple fields
+select one field with alias
+select multiple fields with alias
+select one field with aggregate
+select multiple fields with aggreagete
+select one field with aggreagete and also alias
+select multiple fields with aggreagete and also alias
+select distinct field
+select top n fields
+select percent fields
+select MIN field
+select MAX field
+select COUNT field
+select AVG field
+select SUM field
+
+
+for where
+
+where one field with operator =
+where one field with operator !=
+where one field with operator >
+where one field with operator <
+where one field with operator >=
+where one field with operator <=
+where one field with operator LIKE (special method required LIKE 'a_%_%')
+where one field with operator IN (special method requred IN (SELECT Country FROM Suppliers))
+where multiple fields with AND
+where multiple fields with OR
+where multiple fields with NOT
+where one field IS NULL
+where one field IS NOT NULL
+
+
+
+for orderby
+
+orderby one field
+orderby one field desc
+orderby multiple fields
+orderby one field asc, one field desc
+
+for insert
+
+insert all fields
+insert all fields except selected fields
+
+for update
+
+update all fields
+update all fields except selected fields
+update selected fields
+
+for delete
+
+delete
+
+
+for groupby
+
+groupby one field
+groupby multiple fields
+
+for having
+
+having one field condition (Id < 4)
+having one field with aggreage condition (COUNT(Id) < 5)
+having multiple fields condition (Id < 4)
+having  multiple fields with aggreage condition (COUNT(Id) < 5)
+
+
+
+
+
+
+
+

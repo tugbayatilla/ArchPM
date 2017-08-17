@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C44A0CEE-8780-40BB-9682-71A0EDA88588}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArchPM</RootNamespace>
+    <AssemblyName>ArchPM.QueryBuilder</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\DefaultQueryGenerator.cs" />
+    <Compile Include="Domain\Extensions.cs" />
+    <Compile Include="QBuilder.cs" />
+    <Compile Include="ContentItems\BlockContentItem.cs" />
+    <Compile Include="ContentItems\FieldContentItem.cs" />
+    <Compile Include="ContentItems\IContentItem.cs" />
+    <Compile Include="ContentItems\NotContentItem.cs" />
+    <Compile Include="ContentItems\OperatorContentItem.cs" />
+    <Compile Include="ContentItems\ValueContentItem.cs" />
+    <Compile Include="Contents\CreateContent.cs" />
+    <Compile Include="Contents\InsertContent.cs" />
+    <Compile Include="Contents\JoinContent.cs" />
+    <Compile Include="Contents\OrderByContent.cs" />
+    <Compile Include="Contents\PagingContent.cs" />
+    <Compile Include="Contents\SelectContent.cs" />
+    <Compile Include="Contents\UpdateContent.cs" />
+    <Compile Include="Contents\WhereContent.cs" />
+    <Compile Include="DecisionMaker.cs" />
+    <Compile Include="Domain\Enums.cs" />
+    <Compile Include="ExpressionHandlers\BinaryExpressionHandler.cs" />
+    <Compile Include="ExpressionHandlers\ConstantExressionHandler.cs" />
+    <Compile Include="ExpressionHandlers\IExpressionHandler.cs" />
+    <Compile Include="ExpressionHandlers\LambdaExpressionHandler.cs" />
+    <Compile Include="ExpressionHandlers\MemberExpressionHandler.cs" />
+    <Compile Include="ExpressionHandlers\MethodCallExpressionHandler.cs" />
+    <Compile Include="ExpressionHandlers\NewExpressionHandler.cs" />
+    <Compile Include="ExpressionHandlers\UnaryExpressionHandler.cs" />
+    <Compile Include="Domain\IQueryGenerator.cs" />
+    <Compile Include="MethodCalls\AsEnumerable.cs" />
+    <Compile Include="MethodCalls\Contains.cs" />
+    <Compile Include="MethodCalls\EndsWith.cs" />
+    <Compile Include="MethodCalls\IMethodCall.cs" />
+    <Compile Include="MethodCalls\IsNullOrEmpty.cs" />
+    <Compile Include="MethodCalls\Search.cs" />
+    <Compile Include="MethodCalls\StartsWith.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Domain\TableInfo.cs" />
+    <Compile Include="Domain\TableInfoContainer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArchPM.Core\ArchPM.Core.csproj">
+      <Project>{c3f8fc44-3d6f-485b-842d-8be24528ae25}</Project>
+      <Name>ArchPM.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="todo.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "$(SolutionDir)\Assemblies\$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

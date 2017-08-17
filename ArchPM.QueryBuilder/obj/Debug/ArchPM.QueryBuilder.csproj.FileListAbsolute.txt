@@ -1,0 +1,7 @@
+D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder\bin\Debug\ArchPM.QueryBuilder.dll
+D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder\bin\Debug\ArchPM.QueryBuilder.pdb
+D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder\bin\Debug\ArchPM.Core.dll
+D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder\bin\Debug\ArchPM.Core.pdb
+D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder\obj\Debug\ArchPM.QueryBuilder.csprojResolveAssemblyReference.cache
+D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder\obj\Debug\ArchPM.QueryBuilder.dll
+D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder\obj\Debug\ArchPM.QueryBuilder.pdb

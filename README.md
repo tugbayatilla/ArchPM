@@ -99,6 +99,16 @@ you can find how to use
 
 ```
 
+### CREATE AN INSTANCE
+```
+var builder = new QBuilder();
+OR
+var builder = new QBuilder(new TSqlQueryGenerator());
+OR
+var builder = new QBuilder('YOUR CUSTOM CLASS IMPLENTING ISqlQueryGenerator');
+
+```
+
 
 
 ### INSERT
@@ -106,7 +116,7 @@ you can find how to use
 ```
   INSERT INTO Person (Name) VALUES ('my name');
 
-  var builder = new QBuilder(new TSqlQueryGenerator());
+  
   Person p = new Person();
   p.Name = "my name";
   String query = builder.Insert(p, x => x.Name).ToString();

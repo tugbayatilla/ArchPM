@@ -6,100 +6,11 @@ ArchPm QueryBuilder is helping programmers who want to write sql queries with ty
 
 you can find how to use
 
-### SAMPLE CLASS'
 
-```
-
-    class SmallTable
-    {
-        public Int32 Id42 { get; set; }
-        public Int32 Id2 { get; set; }
-        public Int32 Id { get; set; }
-        public String Name { get; set; }
-        public Decimal Salary { get; set; }
-    }
-
-    class SmallTableInherited : SmallTable
-    {
-        public Int32 Age { get; set; }
-    }
-
-
-    class Person
-    {
-        public Int32 Id { get; set; }
-        public Int32? Id2 { get; set; }
-        public Int64 Height { get; set; }
-        public Int64? Height2 { get; set; }
-        public Int16 Weight { get; set; }
-        public Int16? Weight2 { get; set; }
-        public String Name { get; set; }
-        public String Name2 { get; set; }
-        public Decimal Salary { get; set; }
-        public Decimal? Salary2 { get; set; }
-        public Genders Gender { get; set; }
-        public Genders? Gender2 { get; set; }
-        public Fears Fear { get; set; }
-        public Fears? Fear2 { get; set; }
-        public Boolean IsFriendly { get; set; }
-        public Boolean? IsFriendly2 { get; set; }
-        public IMyInterface MyInterface { get; set; }
-        public IMyInterface MyInterface2 { get; set; }
-        public MyClass Myclass { get; set; }
-        public MyClass Myclass2 { get; set; }
-        public DateTime Birth { get; set; }
-        public DateTime? Birth2 { get; set; }
-    }
-
-    class Address
-    {
-        public Int32 Id { get; set; }
-        public Int32? Id2 { get; set; }
-        public Int32 PersonId { get; set; }
-        public Int32? PersonId2 { get; set; }
-        public Int64 Size { get; set; }
-        public Int64? Size2 { get; set; }
-        public String Name { get; set; }
-        public String Name2 { get; set; }
-        public String Description { get; set; }
-        public String Description2 { get; set; }
-        public DateTime MovingDate { get; set; }
-        public DateTime? MovingDate2 { get; set; }
-    }
-
-    interface IMyInterface
-    {
-        Int32 Id { get; set; }
-    } 
-
-    class MyInterfaceClass : IMyInterface
-    {
-        public Int32 Id { get; set; }
-    }
-
-    class MyClass
-    { }
-
-    enum Genders
-    {
-        Male,
-        Female,
-        Other
-    }
-
-    enum Fears : byte
-    {
-        Dark = 0,
-        Alone = 1,
-        Cat = 2
-    }
-
-
-```
 
 ### CREATE AN INSTANCE
 ```
-var builder = new QBuilder();
+ArchPM.QBuilder builder = new ArchPM.QBuilder();
 OR
 var builder = new QBuilder(new TSqlQueryGenerator());
 OR
@@ -121,8 +32,6 @@ var builder = new QBuilder('YOUR CUSTOM CLASS IMPLENTING ISqlQueryGenerator');
 ```
 
 ### SELECT
-
-<strong>var builder = new QBuilder(new TSqlQueryGenerator());</strong>
 
 ```
    String query = builder.Select<Person>(p => p.Birth).Count<Person>(p => new { MY_COUNT = p.Id }).ToString();
@@ -351,6 +260,97 @@ var builder = new QBuilder('YOUR CUSTOM CLASS IMPLENTING ISqlQueryGenerator');
      String query = builder.Select<Person>().Paging<Person>(10, 20, x => x.Gender).ToString();
 
      Assert.AreEqual("SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY t0.Gender ASC) AS trow, t0.* FROM Person AS t0) AS t99 WHERE t99.trow BETWEEN 200 AND 220 ORDER BY t99.Gender ASC", query);
+```
+
+### SAMPLE CLASS'
+
+```
+
+    class SmallTable
+    {
+        public Int32 Id42 { get; set; }
+        public Int32 Id2 { get; set; }
+        public Int32 Id { get; set; }
+        public String Name { get; set; }
+        public Decimal Salary { get; set; }
+    }
+
+    class SmallTableInherited : SmallTable
+    {
+        public Int32 Age { get; set; }
+    }
+
+
+    class Person
+    {
+        public Int32 Id { get; set; }
+        public Int32? Id2 { get; set; }
+        public Int64 Height { get; set; }
+        public Int64? Height2 { get; set; }
+        public Int16 Weight { get; set; }
+        public Int16? Weight2 { get; set; }
+        public String Name { get; set; }
+        public String Name2 { get; set; }
+        public Decimal Salary { get; set; }
+        public Decimal? Salary2 { get; set; }
+        public Genders Gender { get; set; }
+        public Genders? Gender2 { get; set; }
+        public Fears Fear { get; set; }
+        public Fears? Fear2 { get; set; }
+        public Boolean IsFriendly { get; set; }
+        public Boolean? IsFriendly2 { get; set; }
+        public IMyInterface MyInterface { get; set; }
+        public IMyInterface MyInterface2 { get; set; }
+        public MyClass Myclass { get; set; }
+        public MyClass Myclass2 { get; set; }
+        public DateTime Birth { get; set; }
+        public DateTime? Birth2 { get; set; }
+    }
+
+    class Address
+    {
+        public Int32 Id { get; set; }
+        public Int32? Id2 { get; set; }
+        public Int32 PersonId { get; set; }
+        public Int32? PersonId2 { get; set; }
+        public Int64 Size { get; set; }
+        public Int64? Size2 { get; set; }
+        public String Name { get; set; }
+        public String Name2 { get; set; }
+        public String Description { get; set; }
+        public String Description2 { get; set; }
+        public DateTime MovingDate { get; set; }
+        public DateTime? MovingDate2 { get; set; }
+    }
+
+    interface IMyInterface
+    {
+        Int32 Id { get; set; }
+    } 
+
+    class MyInterfaceClass : IMyInterface
+    {
+        public Int32 Id { get; set; }
+    }
+
+    class MyClass
+    { }
+
+    enum Genders
+    {
+        Male,
+        Female,
+        Other
+    }
+
+    enum Fears : byte
+    {
+        Dark = 0,
+        Alone = 1,
+        Cat = 2
+    }
+
+
 ```
 
 

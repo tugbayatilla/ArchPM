@@ -11,6 +11,7 @@ using ArchPM.Core.Exceptions;
 using ArchPM.QueryBuilder.MethodCalls;
 using ArchPM.QueryBuilder.Contents;
 using ArchPM.QueryBuilder.ContentItems;
+using ArchPM.Core;
 
 namespace ArchPM.QueryBuilder
 {

@@ -102,38 +102,53 @@ namespace ArchPM.QueryBuilder
             //result
             StringBuilder sb = new StringBuilder();
 
-            //SQL COMMAND
-            sb.Append("SELECT");
-            sb.Append(this.SEPERATOR);
 
-            #region FIELDS
-            //Field Names
-            foreach (var selectContent in builder.SelectContents)
+            #region paging code sample
+            /*
+
+           Class	
+               Repository.cs
+           Method	
+               Search
+           Parameters	
+               Skip: 50,
+               Take: 10,
+               OrderBy: p.ID,
+               Direction: Desc
+           Query	
+               SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY t0.ID Desc) AS trow, 
+               t0.*
+               FROM SY_BASVURU AS t0
+               WHERE
+               t0.STATUS = 1 AND t0.BASVURU_TIPI IN (1)) AS t99 
+               WHERE
+               t99.trow BETWEEN 50 AND 59
+               ORDER BY t99.ID Desc
+            */
+
+            #endregion
+
+            Action removeLastCommaIfExist = () =>
             {
-                if (selectContent.Items.Count == 0) //no predicate entered
+
+                //remove last comma and seperator if exist
+                if (sb[sb.Length - 1].ToString() == this.SEPERATOR && sb[sb.Length - 2] == ',')
                 {
-                    sb.Append(selectContent.IsUsingCountAggreate ? "COUNT(*) AS [COUNT]" : String.Format("{0}.*", selectContent.TableInfo.Alias));
+                    sb.Replace(String.Format(",{0}", this.SEPERATOR), "", sb.Length - 2, 2);
                     sb.Append(this.SEPERATOR);
                 }
-                else
-                {
-                    //all items must be FieldContentItem because it is select Content
-                    IEnumerable<FieldContentItem> fields = selectContent.Items.Cast<FieldContentItem>();
-                    foreach (var field in fields)
-                    {
-                        String fieldName = String.Format("{0}.{1}", field.TableInfo.Alias, field.Value);
-                        //COUNT aggreage
-                        if (selectContent.IsUsingCountAggreate)
-                        {
-                            fieldName = String.Format("COUNT({0})", fieldName);
-                            if (String.IsNullOrEmpty(field.Alias))
-                            {
-                                field.Alias = "COUNT"; //tip:default value for count
-                            }
-                        }
 
-                        //set fieldname
-                        sb.Append(fieldName);
+            };
+
+            Action<List<IContentItem>> setFieldsByCommaSeperated = (list) =>
+            {
+
+                foreach (var item in list)
+                {
+                    if (item is FieldContentItem)
+                    {
+                        var field = item as FieldContentItem;
+                        sb.AppendFormat("{0}.{1}", field.TableInfo.Alias, field.Value);
                         //set alias
                         if (!String.IsNullOrEmpty(field.Alias))
                         {
@@ -144,131 +159,72 @@ namespace ArchPM.QueryBuilder
                         sb.Append(",");
                         sb.Append(this.SEPERATOR);
                     }
+                   
+                  
                 }
-            }
-
-            //remove last comma and seperator if exist
-            if (sb[sb.Length - 1].ToString() == this.SEPERATOR && sb[sb.Length - 2] == ',')
-            {
-                sb.Replace(String.Format(",{0}", this.SEPERATOR), "", sb.Length - 2, 2);
-                sb.Append(this.SEPERATOR);
-            }
-            #endregion
-
-            //SQL COMMAND
-            sb.Append("FROM");
-            sb.Append(this.SEPERATOR);
-
-            #region TABLE NAMES
-            //Table Names
-            var uniqueTableInfos = builder.SelectContents.Select(p => p.TableInfo).Distinct().ToList();
-
-            //if join used, remove from FROM section
-            if (builder.JoinContents.Count > 0)
-            {
-                builder.JoinContents.ForEach(content =>
-                {
-                    uniqueTableInfos.RemoveAll(p => p.Name == content.RightTableInfo.Name);
-                });
-            }
-
-
-            foreach (var tableInfo in uniqueTableInfos)
-            {
-                //tablename with alias
-                sb.AppendFormat("{0} AS {1}", tableInfo.Name, tableInfo.Alias);
-
-                //add comma if it is not last element
-                if (tableInfo != uniqueTableInfos.Last())
-                {
-                    sb.Append(",");
-                    //SEPERATOR
-                    sb.Append(this.SEPERATOR);
-                }
-
-            }
-            #endregion
-
-            #region JOIN
-
-            if (builder.JoinContents.HasRecords())
-            {
-                //validation
-                builder.JoinContents.ForEach(content =>
-                {
-                    if (builder.SelectContents.Count(p => p.TableInfo.Name == content.LeftTableInfo.Name) == 0)
-                        throw new QueryBuilderException(String.Format("Select[{0}](... must be used before use Join[{0},{1}](...",
-                            content.LeftTableInfo.Name, content.RightTableInfo.Name));
-
-                    String tableNameWithAlias = String.Format("{0} AS {1}", content.RightTableInfo.Name, content.RightTableInfo.Alias);
-                    String joinFieldNames = String.Empty;
-
-                    foreach (var item in content.Items)
-                    {
-                        if (item is FieldContentItem)
-                        {
-                            joinFieldNames += String.Format("{0}.{1}", (item as FieldContentItem).TableInfo.Alias, item.Value);
-                        }
-                        if (item is OperatorContentItem)
-                        {
-                            joinFieldNames += " ";
-                            joinFieldNames += item.Value;
-                            joinFieldNames += " ";
-                        }
-                    }
-
-                    sb.Append(this.SEPERATOR);
-                    sb.Append(content.JoinDirection == JoinDirections.Right ? "RIGHT " : "LEFT ");
-                    sb.Append(content.JoinType == JoinTypes.Outer ? "OUTER " : "");
-                    sb.Append(String.Format("JOIN {0} ON {1}", tableNameWithAlias, joinFieldNames));
-                });
-
-            }
-
-            #endregion
-
-            //WHERE
-            GenerateWhereQuery(sb, builder);
-
-
-            //ORDER BY
-            if (builder.OrderByContents.Count > 0)
-            {
-                var orderByString = String.Join(" ,", builder.OrderByContents.Select(p => String.Format("{0} {1}", 
-                    String.Join(" ", p.Items.Select(x => x.Value)), p.Direction.ToString())));
-                sb.Append(this.SEPERATOR);
-                sb.AppendFormat("ORDER BY");
-                sb.Append(this.SEPERATOR);
-                sb.Append(orderByString);
-
-            }
-
-            /*
-
-            Class	
-                Repository.cs
-            Method	
-                Search
-            Parameters	
-                Skip: 50,
-                Take: 10,
-                OrderBy: p.ID,
-                Direction: Desc
-            Query	
-                SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY t0.ID Desc) AS trow, 
-                t0.*
-                FROM SY_BASVURU AS t0
-                WHERE
-                t0.STATUS = 1 AND t0.BASVURU_TIPI IN (1)) AS t99 
-                WHERE
-                t99.trow BETWEEN 50 AND 59
-                ORDER BY t99.ID Desc
-             */
+                //remove last comma and seperator if exist
+                removeLastCommaIfExist();
+            };
 
             if (builder.PagingContent.Items.HasRecords())
             {
+                //SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY t0.Id Asc) AS trow,  t0.Id FROM Person AS t0 WHERE t0.Id = 1) AS t99  WHERE t99.trow BETWEEN 5 AND 15 ORDER BY t99.Id Asc
+                //SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY {t0.Id} {Asc}) AS trow,  {t0.Id} FROM {Person} AS t0 WHERE {t0.Id = 1}) AS t99  
+                // WHERE t99.trow BETWEEN {5} AND {15} ORDER BY {t99.Id} {Asc}
 
-                //String searchOrderbyFields = builder.PagingContent.QueryStrings.ToQueryString();
+                sb.Append("SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY ");
+
+                setFieldsByCommaSeperated(builder.PagingContent.Items);
+
+                sb.AppendFormat("{0}) AS trow,", builder.PagingContent.Direction.GetDescription());
+                sb.Append(this.SEPERATOR);
+
+
+                foreach (var selectContent in builder.SelectContents)
+                {
+                    if (selectContent.Items.Count == 0) //no predicate entered
+                    {
+                        sb.Append(selectContent.IsUsingCountAggreate ? "COUNT(*) AS [COUNT]" : String.Format("{0}.*", selectContent.TableInfo.Alias));
+                        sb.Append(this.SEPERATOR);
+                    }
+                    else
+                    {
+                        setFieldsByCommaSeperated(selectContent.Items);
+                        sb.Append(",");
+                        sb.Append(this.SEPERATOR);
+                    }
+                }
+                removeLastCommaIfExist();
+                //sb.Remove(sb.Length - 1, 1);
+                sb.AppendFormat("FROM {0} AS {1}", builder.PagingContent.TableInfo.Name, builder.PagingContent.TableInfo.Alias);
+
+                Int32 betweenStart = builder.PagingContent.Page * builder.PagingContent.PerPage;
+                Int32 betweenEnd = betweenStart + builder.PagingContent.PerPage;
+
+                GenerateWhereQuery(sb, builder);
+                removeLastCommaIfExist();
+
+                sb.AppendFormat(") AS t99 WHERE t99.trow BETWEEN {0} AND {1} ORDER BY ",
+                        betweenStart,
+                        betweenEnd);
+
+                foreach (var item in builder.PagingContent.Items)
+                {
+                    var field = item as FieldContentItem;
+                    if (field != null)
+                    {
+                        sb.AppendFormat("t99.{0} {1}", field.Value, builder.PagingContent.Direction.GetDescription());
+                        //SEPERATOR
+                        sb.Append(",");
+                        sb.Append(this.SEPERATOR);
+                    }
+                }
+                //remove last comma and seperator if exist
+                removeLastCommaIfExist();
+
+
+
+                //String searchOrderbyFields = builder.PagingContent.Items.ToQueryString();
                 //String searchOrderbyFieldsOuter = builder.PagingContent.QueryStrings.ToQueryString("", false);
                 //queryBuilder = String.Format("SELECT * FROM (SELECT ROW_NUMBER() OVER(ORDER BY {1} {6}) AS trow, {2}) AS {3} {8}WHERE{8}{3}.trow BETWEEN {4} AND {5}{8}ORDER BY {3}.{7} {6}",
                 //    fieldNames, //0
@@ -281,11 +237,151 @@ namespace ArchPM.QueryBuilder
                 //    searchOrderbyFieldsOuter, //7
                 //    Seperator); //8
             }
+            else
+            {
+                //SQL COMMAND
+                sb.Append("SELECT");
+                sb.Append(this.SEPERATOR);
+
+                #region FIELDS
+                //Field Names
+                foreach (var selectContent in builder.SelectContents)
+                {
+                    if (selectContent.Items.Count == 0) //no predicate entered
+                    {
+                        sb.Append(selectContent.IsUsingCountAggreate ? "COUNT(*) AS [COUNT]" : String.Format("{0}.*", selectContent.TableInfo.Alias));
+                        sb.Append(this.SEPERATOR);
+                    }
+                    else
+                    {
+                        //all items must be FieldContentItem because it is select Content
+                        IEnumerable<FieldContentItem> fields = selectContent.Items.Cast<FieldContentItem>();
+                        foreach (var field in fields)
+                        {
+                            String fieldName = String.Format("{0}.{1}", field.TableInfo.Alias, field.Value);
+                            //COUNT aggreage
+                            if (selectContent.IsUsingCountAggreate)
+                            {
+                                fieldName = String.Format("COUNT({0})", fieldName);
+                                if (String.IsNullOrEmpty(field.Alias))
+                                {
+                                    field.Alias = "COUNT"; //tip:default value for count
+                                }
+                            }
+
+                            //set fieldname
+                            sb.Append(fieldName);
+                            //set alias
+                            if (!String.IsNullOrEmpty(field.Alias))
+                            {
+                                sb.AppendFormat(" AS [{0}]", field.Alias); //tip: must be space before AS. dont change with Seperator
+                            }
+
+                            //SEPERATOR
+                            sb.Append(",");
+                            sb.Append(this.SEPERATOR);
+                        }
+                    }
+                }
+                //remove last comma and seperator if exist
+                removeLastCommaIfExist();
+
+
+                #endregion
+
+                //SQL COMMAND
+                sb.Append("FROM");
+                sb.Append(this.SEPERATOR);
+
+                #region TABLE NAMES
+                //Table Names
+                var uniqueTableInfos = builder.SelectContents.Select(p => p.TableInfo).Distinct().ToList();
+
+                //if join used, remove from FROM section
+                if (builder.JoinContents.Count > 0)
+                {
+                    builder.JoinContents.ForEach(content =>
+                    {
+                        uniqueTableInfos.RemoveAll(p => p.Name == content.RightTableInfo.Name);
+                    });
+                }
+
+
+                foreach (var tableInfo in uniqueTableInfos)
+                {
+                    //tablename with alias
+                    sb.AppendFormat("{0} AS {1}", tableInfo.Name, tableInfo.Alias);
+
+                    //add comma if it is not last element
+                    if (tableInfo != uniqueTableInfos.Last())
+                    {
+                        sb.Append(",");
+                        //SEPERATOR
+                        sb.Append(this.SEPERATOR);
+                    }
+
+                }
+                #endregion
+
+                #region JOIN
+
+                if (builder.JoinContents.HasRecords())
+                {
+                    //validation
+                    builder.JoinContents.ForEach(content =>
+                    {
+                        if (builder.SelectContents.Count(p => p.TableInfo.Name == content.LeftTableInfo.Name) == 0)
+                            throw new QueryBuilderException(String.Format("Select[{0}](... must be used before use Join[{0},{1}](...",
+                                content.LeftTableInfo.Name, content.RightTableInfo.Name));
+
+                        String tableNameWithAlias = String.Format("{0} AS {1}", content.RightTableInfo.Name, content.RightTableInfo.Alias);
+                        String joinFieldNames = String.Empty;
+
+                        foreach (var item in content.Items)
+                        {
+                            if (item is FieldContentItem)
+                            {
+                                joinFieldNames += String.Format("{0}.{1}", (item as FieldContentItem).TableInfo.Alias, item.Value);
+                            }
+                            if (item is OperatorContentItem)
+                            {
+                                joinFieldNames += " ";
+                                joinFieldNames += item.Value;
+                                joinFieldNames += " ";
+                            }
+                        }
+
+                        sb.Append(this.SEPERATOR);
+                        sb.Append(content.JoinDirection == JoinDirections.Right ? "RIGHT " : "LEFT ");
+                        sb.Append(content.JoinType == JoinTypes.Outer ? "OUTER " : "");
+                        sb.Append(String.Format("JOIN {0} ON {1}", tableNameWithAlias, joinFieldNames));
+                    });
+
+                }
+
+                #endregion
 
 
 
 
-            String result = sb.ToString();
+                //WHERE
+                GenerateWhereQuery(sb, builder);
+
+
+                //ORDER BY
+                if (builder.OrderByContents.Count > 0)
+                {
+                    var orderByString = String.Join(" ,", builder.OrderByContents.Select(p => String.Format("{0} {1}",
+                        String.Join(" ", p.Items.Select(x => x.Value)), p.Direction.ToString())));
+                    sb.Append(this.SEPERATOR);
+                    sb.AppendFormat("ORDER BY");
+                    sb.Append(this.SEPERATOR);
+                    sb.Append(orderByString);
+
+                }
+            }
+
+            String result = sb.ToString().TrimEnd();
             return result;
         }
 

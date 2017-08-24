@@ -49,8 +49,8 @@
     <Compile Include="Core\Exceptions\DataLayerException.cs" />
     <Compile Include="Core\Exceptions\SqlQueryBuilderException.cs" />
     <Compile Include="Core\Exceptions\ValidationException.cs" />
-    <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\Reflection\PropertyDTO.cs" />
+    <Compile Include="Core\ExtensionMethods.cs" />
+    <Compile Include="Core\PropertyDTO.cs" />
     <Compile Include="Domain\Extensions.cs" />
     <Compile Include="QBuilder.cs" />
     <Compile Include="ContentItems\BlockContentItem.cs" />

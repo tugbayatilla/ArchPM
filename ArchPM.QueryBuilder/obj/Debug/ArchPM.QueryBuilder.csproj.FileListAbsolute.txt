@@ -9,3 +9,4 @@ D:\GitRepositories\ArchPM\ArchPM.QueryBuilder\bin\Debug\ArchPM.QueryBuilder.dll
 D:\GitRepositories\ArchPM\ArchPM.QueryBuilder\bin\Debug\ArchPM.QueryBuilder.pdb
 D:\GitRepositories\ArchPM\ArchPM.QueryBuilder\obj\Debug\ArchPM.QueryBuilder.dll
 D:\GitRepositories\ArchPM\ArchPM.QueryBuilder\obj\Debug\ArchPM.QueryBuilder.pdb
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder\obj\Debug\ArchPM.QueryBuilder.csprojResolveAssemblyReference.cache

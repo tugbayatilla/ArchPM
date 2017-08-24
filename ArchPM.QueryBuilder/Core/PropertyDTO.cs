@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 
-namespace ArchPM.Core.Extensions
+namespace ArchPM.Core
 {
     /// <summary>
     /// 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections;
 using ArchPM.Core.Extensions;
 using ArchPM.QueryBuilder.ContentItems;
+using ArchPM.Core.Extensions;
 
 namespace ArchPM.QueryBuilder.ExpressionHandlers
 {
@@ -53,12 +54,24 @@ namespace ArchPM.QueryBuilder.ExpressionHandlers
                 else
                 {
                     // {p => p.Id == id} (id is integer parameter)
-                    if (memberExp.Expression != null 
+                    if (memberExp.Expression != null
                         && (memberExp.Expression.NodeType == ExpressionType.Constant // { p => p.Id == id} (id is integer parameter)
                             || memberExp.Expression.NodeType == ExpressionType.MemberAccess)) // { p => p.Id == interfaceClass.Id } 
                     {
                         Object value = Expression.Lambda(memberExp).Compile().DynamicInvoke();
-                        sb.Add(new ValueContentItem() { Value = value });
+                        if (value == null || (value != null && value.GetType().IsDotNetPirimitive()))
+                        {
+                            sb.Add(new ValueContentItem() { Value = value });
+                        }
+                        else if (value is MemberExpression)
+                        {
+                            MemberExpression propertyExpression = value as MemberExpression;
+                            var field = new FieldContentItem();
+                            field.Value = propertyExpression.Member.Name;
+                            field.Type = propertyExpression.Type;
+                            field.TableInfo.Name = propertyExpression.Expression.Type.Name;
+                            sb.Add(field);
+                        }
                     }
                     else
                     {

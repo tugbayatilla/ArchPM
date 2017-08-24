@@ -5,7 +5,7 @@ using ArchPM.QueryBuilder.Tests.Model;
 namespace ArchPM.QueryBuilder.Tests
 {
     [TestClass]
-    public class UpdateTests
+    public class UpdateContentTests
     {
         [TestMethod]
         public void UpdateAllFieldsTestContentCount()

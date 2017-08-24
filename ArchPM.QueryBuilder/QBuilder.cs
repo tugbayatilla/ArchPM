@@ -7,7 +7,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using ArchPM.Core.Extensions;
-using ArchPM.Core.Extensions.ReflectionExtensions;
 using ArchPM.Core.Exceptions;
 using ArchPM.QueryBuilder.MethodCalls;
 using ArchPM.QueryBuilder.Contents;
@@ -18,7 +17,6 @@ namespace ArchPM.QueryBuilder
     /// <summary>
     /// 
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     public sealed class QBuilder
     {
         #region Members
@@ -31,11 +29,18 @@ namespace ArchPM.QueryBuilder
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QBuilder"/> class.
+        /// </summary>
         public QBuilder()
-            : this(new DefaultQueryGenerator())
+            : this(new TSqlQueryGenerator())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QBuilder"/> class.
+        /// </summary>
+        /// <param name="queryGenerator">The query generator.</param>
         public QBuilder(IQueryGenerator queryGenerator)
         {
             queryGenerator.NotNull("queryGenerator must be implemented!");
@@ -68,17 +73,83 @@ namespace ArchPM.QueryBuilder
         
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the query generator.
+        /// </summary>
+        /// <value>
+        /// The query generator.
+        /// </value>
         public IQueryGenerator QueryGenerator { get; set; }
+        /// <summary>
+        /// Gets or sets the type of the query.
+        /// </summary>
+        /// <value>
+        /// The type of the query.
+        /// </value>
         public QueryTypes QueryType { get; set; }
+        /// <summary>
+        /// Gets or sets the registered method calls.
+        /// </summary>
+        /// <value>
+        /// The registered method calls.
+        /// </value>
         public List<IMethodCall> RegisteredMethodCalls { get; set; }
 
+        /// <summary>
+        /// Gets or sets the select contents.
+        /// </summary>
+        /// <value>
+        /// The select contents.
+        /// </value>
         public List<SelectContent> SelectContents { get; set; }
+        /// <summary>
+        /// Gets or sets the content of the where.
+        /// </summary>
+        /// <value>
+        /// The content of the where.
+        /// </value>
         public WhereContent WhereContent { get; set; }
+        /// <summary>
+        /// Gets or sets the content of the update.
+        /// </summary>
+        /// <value>
+        /// The content of the update.
+        /// </value>
         public UpdateContent UpdateContent { get; set; }
+        /// <summary>
+        /// Gets or sets the content of the insert.
+        /// </summary>
+        /// <value>
+        /// The content of the insert.
+        /// </value>
         public InsertContent InsertContent { get; set; }
+        /// <summary>
+        /// Gets or sets the join contents.
+        /// </summary>
+        /// <value>
+        /// The join contents.
+        /// </value>
         public List<JoinContent> JoinContents { get; set; }
+        /// <summary>
+        /// Gets or sets the content of the paging.
+        /// </summary>
+        /// <value>
+        /// The content of the paging.
+        /// </value>
         public PagingContent PagingContent { get; set; }
+        /// <summary>
+        /// Gets or sets the order by contents.
+        /// </summary>
+        /// <value>
+        /// The order by contents.
+        /// </value>
         public List<OrderByContent> OrderByContents { get; set; }
+        /// <summary>
+        /// Gets or sets the content of the create.
+        /// </summary>
+        /// <value>
+        /// The content of the create.
+        /// </value>
         public CreateContent CreateContent { get; set; } 
 
         #endregion
@@ -89,7 +160,6 @@ namespace ArchPM.QueryBuilder
         /// Counts the specified table name.
         /// </summary>
         /// <typeparam name="T">The type of the 1.</typeparam>
-        /// <param name="tableName">Name of the table.</param>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         public QBuilder Count<T>(Expression<Func<T, Object>> predicate = null) where T : new()
@@ -108,7 +178,6 @@ namespace ArchPM.QueryBuilder
         /// Selects the specified table name.
         /// </summary>
         /// <typeparam name="T">The type of the 1.</typeparam>
-        /// <param name="tableName">Name of the table.</param>
         /// <param name="predicate">The predicate.</param>
         /// <returns></returns>
         public QBuilder Select<T>(Expression<Func<T, Object>> predicate = null) where T : new()
@@ -119,6 +188,12 @@ namespace ArchPM.QueryBuilder
             return this;
         }
 
+        /// <summary>
+        /// Creates the content of the select.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
         SelectContent createSelectContent<T>(Expression<Func<T, Object>> predicate = null) where T : new()
         {
             this.QueryType = QueryTypes.Select;
@@ -146,6 +221,12 @@ namespace ArchPM.QueryBuilder
 
         #region UTILS
 
+        /// <summary>
+        /// Changes the name of the table.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="newTableName">New name of the table.</param>
+        /// <returns></returns>
         public QBuilder ChangeTableName<T>(String newTableName)
         {
             String currentTableName = typeof(T).Name;
@@ -154,6 +235,12 @@ namespace ArchPM.QueryBuilder
             return this;
         }
 
+        /// <summary>
+        /// Sets the table alias.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="alias">The alias.</param>
+        /// <returns></returns>
         public QBuilder SetTableAlias<T>(String alias)
         {
             tableInfoContainer.SetAlias(typeof(T).Name, alias);
@@ -177,9 +264,9 @@ namespace ArchPM.QueryBuilder
 
 
         /// <summary>
-        /// Updates given list the table info 
+        /// Updates given list the table info
         /// </summary>
-        /// <param name="list"></param>
+        /// <param name="list">The list.</param>
         void UpdateTableInfo(IList<IContentItem> list)
         {
             list.ModifyEach(p =>
@@ -194,6 +281,9 @@ namespace ArchPM.QueryBuilder
         }
 
 
+        /// <summary>
+        /// Registers the expressions.
+        /// </summary>
         void registerExpressions()
         {
             registeredExpressions.Clear();
@@ -202,6 +292,9 @@ namespace ArchPM.QueryBuilder
             //collect all objects implementing IExpression and create new instance
             registeredExpressions.AddRange(currentAssembly.GetProvider<IExpressionHandler>());
         }
+        /// <summary>
+        /// Registers the method calls.
+        /// </summary>
         void registerMethodCalls()
         {
             RegisteredMethodCalls.Clear();
@@ -221,6 +314,15 @@ namespace ArchPM.QueryBuilder
         //}
 
 
+        /// <summary>
+        /// Joins the specified predicate.
+        /// </summary>
+        /// <typeparam name="LeftTable">The type of the eft table.</typeparam>
+        /// <typeparam name="RightTable">The type of the ight table.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="joinDirection">The join direction.</param>
+        /// <param name="joinType">Type of the join.</param>
+        /// <returns></returns>
         public QBuilder Join<LeftTable, RightTable>(Expression<Func<LeftTable, RightTable, Object>> predicate, JoinDirections joinDirection = JoinDirections.Left, JoinTypes joinType = JoinTypes.Inner)
         {
             JoinContent joinContent = new JoinContent();
@@ -247,6 +349,7 @@ namespace ArchPM.QueryBuilder
         /// <summary>
         /// Where Operator can be used between Where Methods to be able to define operator between wheres
         /// </summary>
+        /// <param name="whereOperator">The where operator.</param>
         /// <returns></returns>
         public QBuilder InsertOperatorBetweenWhereStatements(Operators whereOperator)
         {
@@ -390,9 +493,8 @@ namespace ArchPM.QueryBuilder
         /// <summary>
         /// Updates the specified entity.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="entity">The entity.</param>
-        /// <param name="tableName">Name of the table.</param>
-        /// <param name="predicate">The include.</param>
         /// <returns></returns>
         public QBuilder Update<T>(T entity)
         {
@@ -404,6 +506,14 @@ namespace ArchPM.QueryBuilder
             return this;
         }
 
+        /// <summary>
+        /// Updates the specified entity.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity">The entity.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="includeOrExclude">The include or exclude.</param>
+        /// <returns></returns>
         public QBuilder Update<T>(T entity, Expression<Func<T, Object>> predicate, IncludeExclude includeOrExclude = IncludeExclude.Include)
         {
             var that = Update(entity);
@@ -413,6 +523,14 @@ namespace ArchPM.QueryBuilder
             return result;
         }
 
+        /// <summary>
+        /// Includes the exclude.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="fields">The fields.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="includeOrExclude">The include or exclude.</param>
+        /// <returns></returns>
         internal QBuilder includeExclude<T>(List<PropertyDTO> fields, Expression<Func<T, Object>> predicate, IncludeExclude includeOrExclude)
         {
             var list = new List<IContentItem>();
@@ -446,9 +564,6 @@ namespace ArchPM.QueryBuilder
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="entity">include or exclude specified fields</param>
-        /// <param name="predicate">The predicate.</param>
-        /// <param name="includeOrExclude">The include or exclude.</param>
-        /// <param name="tableName">Name of the table.</param>
         /// <returns></returns>
         public QBuilder Insert<T>(T entity)
         {
@@ -467,7 +582,6 @@ namespace ArchPM.QueryBuilder
         /// <param name="entity">include or exclude specified fields</param>
         /// <param name="predicate">The predicate.</param>
         /// <param name="includeOrExclude">The include or exclude.</param>
-        /// <param name="tableName">Name of the table.</param>
         /// <returns></returns>
         public QBuilder Insert<T>(T entity, Expression<Func<T, Object>> predicate, IncludeExclude includeOrExclude = IncludeExclude.Include)
         {
@@ -481,6 +595,7 @@ namespace ArchPM.QueryBuilder
         /// <summary>
         /// Returns the scope identity.
         /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <param name="exclude">The predicate. Exclude selector</param>
         /// <returns></returns>
         public QBuilder ReturnScopeIdentity<T>(Expression<Func<T, Object>> exclude)
@@ -501,6 +616,15 @@ namespace ArchPM.QueryBuilder
         
         #region PAGING
 
+        /// <summary>
+        /// Pagings the specified page.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="page">The page.</param>
+        /// <param name="perPage">The per page.</param>
+        /// <param name="orderByPredicate">The order by predicate.</param>
+        /// <param name="direction">The direction.</param>
+        /// <returns></returns>
         public QBuilder Paging<T>(Int32 page, Int32 perPage, Expression<Func<T, Object>> orderByPredicate, OrderByDirections direction = OrderByDirections.Asc) where T : new()
         {
             this.PagingContent.TableInfo = tableInfoContainer.SetAlias(typeof(T).Name, "");
@@ -549,7 +673,7 @@ namespace ArchPM.QueryBuilder
         /// <summary>
         /// Creates the specified table name.
         /// </summary>
-        /// <param name="tableName">Name of the table.</param>
+        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public QBuilder Create<T>() where T : new()
         {
@@ -565,6 +689,13 @@ namespace ArchPM.QueryBuilder
         #endregion
 
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// <exception cref="QueryBuilderException">You must provide a querygenerator such as SqlQueryGenerator, OracleQueryGenerator</exception>
         public override string ToString()
         {
             if (this.QueryGenerator == null)

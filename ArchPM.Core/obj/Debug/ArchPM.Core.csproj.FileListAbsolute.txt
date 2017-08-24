@@ -1,5 +1,0 @@
-D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.Core\bin\Debug\ArchPM.Core.dll
-D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.Core\bin\Debug\ArchPM.Core.pdb
-D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.Core\obj\Debug\ArchPM.Core.dll
-D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.Core\obj\Debug\ArchPM.Core.pdb
-D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.Core\obj\Debug\ArchPM.Core.csprojResolveAssemblyReference.cache

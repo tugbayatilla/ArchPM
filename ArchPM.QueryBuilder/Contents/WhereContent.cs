@@ -9,12 +9,27 @@ namespace ArchPM.QueryBuilder.Contents
 {
     public class WhereContent
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WhereContent"/> class.
+        /// </summary>
         public WhereContent()
         {
             this.Items = new List<IContentItem>();
         }
+        /// <summary>
+        /// Gets or sets the items.
+        /// </summary>
+        /// <value>
+        /// The items.
+        /// </value>
         public List<IContentItem> Items { get; set; }
 
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();

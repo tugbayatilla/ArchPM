@@ -54,21 +54,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ExtensionTests.cs" />
     <Compile Include="FieldContentItem.cs" />
     <Compile Include="InsertContentTests.cs" />
+    <Compile Include="InsertTests.cs" />
     <Compile Include="JoinContentTests.cs" />
+    <Compile Include="JoinTests.cs" />
     <Compile Include="Model\ContentItemTestExtensions.cs" />
     <Compile Include="Model\Person.cs" />
+    <Compile Include="PagingTests.cs" />
     <Compile Include="SelectContentTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelectTests.cs" />
     <Compile Include="UpdateContentTests.cs" />
+    <Compile Include="UpdateTests.cs" />
     <Compile Include="WhereContentTests.cs" />
+    <Compile Include="WhereTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArchPM.Core\ArchPM.Core.csproj">
-      <Project>{c3f8fc44-3d6f-485b-842d-8be24528ae25}</Project>
-      <Name>ArchPM.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ArchPM.QueryBuilder\ArchPM.QueryBuilder.csproj">
       <Project>{c44a0cee-8780-40bb-9682-71a0eda88588}</Project>
       <Name>ArchPM.QueryBuilder</Name>

@@ -7,7 +7,6 @@ using ArchPM.Core.Extensions;
 using System.Collections;
 using System.Linq;
 
-using ArchPM.Core.Extensions.TypeExtensions;
 using ArchPM.QueryBuilder.ContentItems;
 
 namespace ArchPM.QueryBuilder.ExpressionHandlers

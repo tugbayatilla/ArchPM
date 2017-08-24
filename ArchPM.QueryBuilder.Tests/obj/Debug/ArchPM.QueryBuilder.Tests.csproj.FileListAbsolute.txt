@@ -7,3 +7,10 @@ D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder.Tests\
 D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder.Tests\obj\Debug\ArchPM.QueryBuilder.Tests.csprojResolveAssemblyReference.cache
 D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder.Tests\obj\Debug\ArchPM.QueryBuilder.Tests.dll
 D:\TugbayAtillaWorkspace\ArchPM Framework\Main\ArchPM\ArchPM.QueryBuilder.Tests\obj\Debug\ArchPM.QueryBuilder.Tests.pdb
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder.Tests\bin\Debug\ArchPM.QueryBuilder.Tests.dll
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder.Tests\bin\Debug\ArchPM.QueryBuilder.Tests.pdb
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder.Tests\bin\Debug\ArchPM.QueryBuilder.dll
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder.Tests\bin\Debug\ArchPM.QueryBuilder.pdb
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder.Tests\obj\Debug\ArchPM.QueryBuilder.Tests.csprojResolveAssemblyReference.cache
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder.Tests\obj\Debug\ArchPM.QueryBuilder.Tests.dll
+D:\GitRepositories\ArchPM\ArchPM.QueryBuilder.Tests\obj\Debug\ArchPM.QueryBuilder.Tests.pdb

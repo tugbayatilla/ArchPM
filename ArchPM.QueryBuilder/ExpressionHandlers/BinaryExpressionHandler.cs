@@ -9,6 +9,10 @@ using ArchPM.QueryBuilder.ContentItems;
 
 namespace ArchPM.QueryBuilder.ExpressionHandlers
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="ArchPM.QueryBuilder.ExpressionHandlers.IExpressionHandler" />
     class BinaryExpressionHandler : IExpressionHandler
     {
         public DecisionMaker DecisionMaker { get; set; }

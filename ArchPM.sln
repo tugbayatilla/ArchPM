@@ -3,55 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPM.Core", "ArchPM.Core\ArchPM.Core.csproj", "{C3F8FC44-3D6F-485B-842D-8BE24528AE25}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPM.QueryBuilder.SqlQueryGenerator", "ArchPM.QueryBuilder.SqlQueryGenerator\ArchPM.QueryBuilder.SqlQueryGenerator.csproj", "{3124956D-98E2-4ADC-8CDD-5D95313A36DC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPM.QueryBuilder", "ArchPM.QueryBuilder\ArchPM.QueryBuilder.csproj", "{C44A0CEE-8780-40BB-9682-71A0EDA88588}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPM.QueryBuilder.Tests", "ArchPM.QueryBuilder.Tests\ArchPM.QueryBuilder.Tests.csproj", "{5199D137-72FD-44E4-87D1-537DB867BDF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArchPM.QueryBuilder.SqlQueryGenerator.Tests", "ArchPM.QueryBuilder.SqlQueryGenerator.Tests\ArchPM.QueryBuilder.SqlQueryGenerator.Tests.csproj", "{F6CDEC23-21D1-4A79-8B62-0FCAB97219FF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6DB38031-E38E-45BA-9139-CBCEF308272C}"
-EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tugbayatilla.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = ArchPM.Core\\ArchPM.Core.csproj
-		SccProjectName1 = ArchPM.Core
-		SccLocalPath1 = ArchPM.Core
-		SccProjectUniqueName2 = ArchPM.QueryBuilder.SqlQueryGenerator\\ArchPM.QueryBuilder.SqlQueryGenerator.csproj
-		SccProjectName2 = ArchPM.QueryBuilder.SqlQueryGenerator
-		SccLocalPath2 = ArchPM.QueryBuilder.SqlQueryGenerator
-		SccProjectUniqueName3 = ArchPM.QueryBuilder\\ArchPM.QueryBuilder.csproj
-		SccProjectName3 = ArchPM.QueryBuilder
-		SccLocalPath3 = ArchPM.QueryBuilder
-		SccProjectUniqueName4 = ArchPM.QueryBuilder.Tests\\ArchPM.QueryBuilder.Tests.csproj
-		SccProjectTopLevelParentUniqueName4 = ArchPM.sln
-		SccProjectName4 = ArchPM.QueryBuilder.Tests
-		SccLocalPath4 = ArchPM.QueryBuilder.Tests
-		SccProjectUniqueName5 = ArchPM.QueryBuilder.SqlQueryGenerator.Tests\\ArchPM.QueryBuilder.SqlQueryGenerator.Tests.csproj
-		SccProjectTopLevelParentUniqueName5 = ArchPM.sln
-		SccProjectName5 = ArchPM.QueryBuilder.SqlQueryGenerator.Tests
-		SccLocalPath5 = ArchPM.QueryBuilder.SqlQueryGenerator.Tests
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C3F8FC44-3D6F-485B-842D-8BE24528AE25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C3F8FC44-3D6F-485B-842D-8BE24528AE25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C3F8FC44-3D6F-485B-842D-8BE24528AE25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C3F8FC44-3D6F-485B-842D-8BE24528AE25}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3124956D-98E2-4ADC-8CDD-5D95313A36DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3124956D-98E2-4ADC-8CDD-5D95313A36DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3124956D-98E2-4ADC-8CDD-5D95313A36DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3124956D-98E2-4ADC-8CDD-5D95313A36DC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C44A0CEE-8780-40BB-9682-71A0EDA88588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C44A0CEE-8780-40BB-9682-71A0EDA88588}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C44A0CEE-8780-40BB-9682-71A0EDA88588}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -60,16 +21,8 @@ Global
 		{5199D137-72FD-44E4-87D1-537DB867BDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5199D137-72FD-44E4-87D1-537DB867BDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5199D137-72FD-44E4-87D1-537DB867BDF0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6CDEC23-21D1-4A79-8B62-0FCAB97219FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6CDEC23-21D1-4A79-8B62-0FCAB97219FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6CDEC23-21D1-4A79-8B62-0FCAB97219FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6CDEC23-21D1-4A79-8B62-0FCAB97219FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{5199D137-72FD-44E4-87D1-537DB867BDF0} = {6DB38031-E38E-45BA-9139-CBCEF308272C}
-		{F6CDEC23-21D1-4A79-8B62-0FCAB97219FF} = {6DB38031-E38E-45BA-9139-CBCEF308272C}
 	EndGlobalSection
 EndGlobal

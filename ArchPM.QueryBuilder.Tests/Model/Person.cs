@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ArchPM.QueryBuilder.Tests.Model
+namespace ArchPM.QueryBuilder.Tests
 {
     class SmallTable
     {
